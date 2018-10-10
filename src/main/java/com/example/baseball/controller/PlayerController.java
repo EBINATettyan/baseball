@@ -21,7 +21,7 @@ import com.example.baseball.service.PlayerService;
 @Controller
 /*
  * クラスに対して@RequestMappingを付けておくと、クラス内のメソッド全てに適用される
- * つまりこのクラスのメソッドは全て、http://localhost:8080/playersから始まるURLにマッピングされている
+ * つまりこのクラスのメソッドは全て、http://<ドメインなど>/playersから始まるURLにマッピングされている
  */
 @RequestMapping("/players")
 public class PlayerController {
@@ -67,6 +67,12 @@ public class PlayerController {
 		return "redirect:/players";
 	}
 
+	@DeleteMapping("delete/{id}")
+	String destroy(@PathVariable Integer id) {
+		playerService.delete(id);
+		return "redirect:/players";
+	}
+
 	@GetMapping("/players{id}/edit")
 	/*
 	 * メソッドの引数に@PathVariableを設定するとURL上の値を取得することができる
@@ -88,12 +94,6 @@ public class PlayerController {
 	public String update(@PathVariable Integer id, @ModelAttribute Player player) {
 		player.setId(id);
 		playerService.save(player);
-		return "redirect:/players";
-	}
-
-	@DeleteMapping("/players{id}")
-	public String destroy(@PathVariable Integer id) {
-		playerService.delete(id);
 		return "redirect:/players";
 	}
 }
