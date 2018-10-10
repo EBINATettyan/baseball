@@ -8,33 +8,28 @@
 <body>
 	<div class="container">
 		<h1>Editing Player</h1>
-		<form th:action="@{/players/{id}(id=*{id})}" th:method="put"
-			th:object="${player}">
-			<div class="form-group"
-				th:classappend="${#fields.hasErrors('name')}? has-error">
-				<label class="control-label">名前</label> <input class="form-control"
-					type="text" th:field="*{name}" /> <span class="text-danger"
-					th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+		<div id="timeout" th:if="${judgeId == 0}">
+			<div class="alert alert-danger">
+				<button type="button" class="close" data-dismiss="alert"></button>
+				適切な情報が入力されていません。<br>入力情報を確かめて、再度入力して下さい。
 			</div>
-			<div class="form-group"
-				th:classappend="${#fields.hasErrors('age')}? has-error">
-				<label class="control-label">年齢</label> <input class="form-control"
-					type="number" th:field="*{age}" /> <span class="text-danger"
-					th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+		</div>
+
+		<form th:action="@{/players/edit/{id}(id=*{id})}" th:method="put" th:object="${player}">
+			<div class="form-group">
+				<label class="control-label">名前</label>
+				<!-- *{player.name}と*{name}"は同義 -->
+				<input class="form-control" type="text" th:field="*{name}" name="name" />
 			</div>
-			<div class="form-group"
-				th:classappend="${#fields.hasErrors('team')}? has-error">
-				<label class="control-label">チーム名</label> <input
-					class="form-control" type="text" th:field="*{team}" /> <span
-					class="text-danger" th:if="${#fields.hasErrors('team')}"
-					th:errors="*{team}"></span>
+			<div class="form-group">
+				<label class="control-label">年齢</label> <input class="form-control" type="number" th:field="*{age}" name="age" />
 			</div>
-			<div class="form-group"
-				th:classappend="${#fields.hasErrors('position')}? has-error">
-				<label class="control-label">守備位置</label> <input
-					class="form-control" type="text" th:field="*{position}" /> <span
-					class="text-danger" th:if="${#fields.hasErrors('position')}"
-					th:errors="*{position}"></span>
+			<div class="form-group">
+				<label class="control-label">チーム名</label> <input class="form-control" type="text" th:field="*{team}" name="team" />
+			</div>
+			<div class="form-group">
+				<label class="control-label">守備位置</label> <input class="form-control" type="text" th:field="*{position}" name="position" />
 			</div>
 			<button class="btn btn-default" type="submit">更新</button>
 		</form>
@@ -43,4 +38,16 @@
 		</div>
 	</div>
 </body>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#timeout").fadeIn().queue(function() {
+			setTimeout(function() {
+				$("#timeout").dequeue();
+			}, 5000);
+		});
+		$("#timeout").fadeOut();
+	});
+</script>
 </html>

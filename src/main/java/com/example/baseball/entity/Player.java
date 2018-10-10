@@ -61,7 +61,5 @@ public class Player {
 
 	public void setId(Integer id2) {
 		// TODO 自動生成されたメソッド・スタブ
-
 	}
-
 }
