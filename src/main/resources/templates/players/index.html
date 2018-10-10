@@ -31,7 +31,11 @@
 					<td th:text="*{player.team}"></td>
 					<td th:text="*{player.position}"></td>
 					<!--/* th:href="xxx"とすることでhref属性に設定する値を動的にすることができる。/players/{id}が設定される値で、{}の部分は(id=*{id})の値が動的に入るようになっている(*{id}は${player.id}と等価) */-->
-					<td><a class="btn btn-default btn-xs" th:href="@{/players/{id}(id=*{id})}">参照</a></td>
+					<td>
+						<form th:action="@{/players/show/{id}(id=*{player.id})}" th:method="get">
+							<input class="btn btn-default btn-xs" type="submit" value="参照">
+						</form>
+					</td>
 					<td>
 						<form th:action="@{/players/{id}(id=*{player.id})}" th:method="get">
 							<input class="btn btn-default btn-xs" type="submit" value="編集">
