@@ -73,14 +73,30 @@ public class PlayerController {
 		return "redirect:/players";
 	}
 
-	@GetMapping("/players{id}/edit")
+	@GetMapping("{id}")
 	/*
 	 * メソッドの引数に@PathVariableを設定するとURL上の値を取得することができる
 	 */
-	public String edit(@PathVariable Integer id, Model model) {
+	String edit(@PathVariable Integer id, Model model) {
 		Player player = playerService.findOne(id);
 		model.addAttribute("player", player);
 		return "players/edit";
+	}
+
+	@PutMapping("edit/{id}")
+	String update(@Validated @ModelAttribute Player player, BindingResult bindingResult, Model model,
+			@PathVariable Integer id) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("judgeId", 0);
+			Player beforePlayer = playerService.findOne(id);
+			model.addAttribute("player", beforePlayer);
+			return "players/edit";
+		} else {
+			player.setId(id);
+			playerService.update(player);
+			return "redirect:/players";
+		}
 	}
 
 	@GetMapping("/players{id}")
@@ -88,12 +104,5 @@ public class PlayerController {
 		Player player = playerService.findOne(id);
 		model.addAttribute("player", player);
 		return "players/show";
-	}
-
-	@PutMapping("/players{id}")
-	public String update(@PathVariable Integer id, @ModelAttribute Player player) {
-		player.setId(id);
-		playerService.save(player);
-		return "redirect:/players";
 	}
 }
