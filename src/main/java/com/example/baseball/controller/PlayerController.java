@@ -99,7 +99,7 @@ public class PlayerController {
 		}
 	}
 
-	@GetMapping("/players{id}")
+	@GetMapping("show/{id}")
 	public String show(@PathVariable Integer id, Model model) {
 		Player player = playerService.findOne(id);
 		model.addAttribute("player", player);

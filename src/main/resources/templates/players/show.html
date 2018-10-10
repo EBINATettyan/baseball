@@ -31,7 +31,9 @@
 			</div>
 		</div>
 		<div>
-			<a class="btn btn-default" th:href="@{/players/{id}/edit(id=*{id})}">編集</a>
+			<form th:action="@{/players/{id}(id=*{player.id})}" th:method="get">
+				<input class="btn btn-default btn-xs" type="submit" value="編集">
+			</form>
 		</div>
 		<div class="pull-right">
 			<a class="btn btn-link" href="/players">一覧画面へ</a>
